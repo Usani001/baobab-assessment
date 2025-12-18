@@ -18,7 +18,7 @@ public interface CategoryService {
 
     CategoryResponseDto addCategory(CategoryRequestDto request);
 
-    public List<CategoryResponseDto> getSubtree(Long parentId);
+    CategoryResponseDto getSubtree(Long parentId);
 
     public void deleteCategory(Long id);
 

@@ -1,13 +1,13 @@
 package baobab_test.project.baobab_test.dtos.response;
 
 import baobab_test.project.baobab_test.entities.Category;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Setter
-@Getter
+import java.util.ArrayList;
+import java.util.List;
+
+@Data // Replaces @Getter, @Setter, @ToString, @EqualsAndHashCode
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryResponseDto {
@@ -16,16 +16,20 @@ public class CategoryResponseDto {
     private String name;
     private String description;
     private Long parentId;
+
     private String path;
 
-    public static CategoryResponseDto fromEntity(Category category) {
-        CategoryResponseDto response = new CategoryResponseDto();
-        response.id = category.getId();
-        response.name = category.getName();
-        response.description = category.getDescription();
-        response.parentId = category.getParentId();
-        response.path = category.getPath();
-        return response;
-    }
+    @Builder.Default
+    private List<CategoryResponseDto> children = new ArrayList<>();
 
+    public static CategoryResponseDto fromEntity(Category category) {
+        return CategoryResponseDto.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .description(category.getDescription())
+                .parentId(category.getParentId())
+                .path(category.getPath())
+                .children(new ArrayList<>())
+                .build();
+    }
 }
